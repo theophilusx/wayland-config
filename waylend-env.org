@@ -1,0 +1,24 @@
+#+TITLE: Waylend Environment Settings
+
+* ENV for Wayland
+
+In order for some libraries to default to wayland support, it is necessary to
+set some environment variables. As I tend to run different environments and
+different window managers on my test system, I have isolated these into a
+wayland specific file which I can source when running wayland, but not when
+running X11.
+
+#+begin_src shell :tangle wayland-env
+# Force GTK to use wayland
+export GDK_BACKEND=wayland
+export CLUTTER_BACKEND=wayland
+export BEMENU_BACKEND=wayland
+
+# Force Qt to use wayland
+export QT_QPA_PLATFORM=wayland
+export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+
+# Java apps
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+#+end_src

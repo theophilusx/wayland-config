@@ -1,0 +1,128 @@
+# Wayland Config
+
+* Overview
+
+With Fedora now using Wayland by default and other distributions looking at
+making it the default, together with Gnome's adoption, it seems clear that
+eventually, Linux desktop's will be running Wayland rather than X11.
+
+I know little about Wayland, so it seems the time might be right to give it a
+go. This repository holds my configuration files used to create a Wayland based
+environment and notes to jog my memory and track my experience. 
+
+I am currently running both Arch and Fedora Workstation as virtual guests on a
+Ubuntu 19.04 system. I have become somewhat unhappy with Ubuntu in recent
+years. Therefore I'm looking for a new Linux distribution. At this point, I
+quite like Arch, but am a little concerned about the rolling version aspect of
+this distro. I need a certain level of stability and cannot afford to lose time
+fixing distro issues when I need to get real work done. The alternative is
+therefore Fedora Workstation. This represents a return to Red Hat after nearly
+20 years using Debian and Ubuntu. Fedora seems good, but installing some of the
+software I like to use seems to be a bit of a hassle (though this could just be
+my unfamiliarity with Fedora).
+
+On both systems I've installed GDM and Gnome as well as Sway. While I've used a
+tiling WM before (StumpWM), I'm not familiar with Sway (or i3). Therefore, part
+of what will be documented here is my experience with sway setup.
+
+Where possible, I will use applications which support native Wayland. However, I
+realise many programs are X only, so will still be running Xwayland to maintain
+compatibility with those applications. My expectation is that native wayland
+applications will likely outperform those still relying on X windows. However,
+we are in a transition situation and therefore expect any working usable
+environment will be a hybrid one.
+
+* Sway
+
+Support for Sway under Arch seems a little better than Fedora. In general,
+support for Wayland seems a little better under Arch than Fedora, despite Fedora
+using Wayland by default. Most of the Fedora effort seems to be focused on
+Gnome. However, it was trivial to get a Wayland and sway based setup running on
+both systems. The main packages I'm using are
+
+- sway :: Using the main version from teh community repo rather than one of the
+          AUR versions.
+- swaybg :: Manage wallpaper/backgrounds
+- swayidl :: Idle management
+- swaylock :: Screen locking
+- wl-clipboard :: command line copy/past utility
+- bemenu :: Wayland native version of dmenu used for application launcher etc.
+
+There are other versions for some of the above, such as ~waybar~, which I may
+look at later.  
+
+* Software
+
+There are essentially 3 key bits of software I must have in any working
+environment;
+
+- Terminal Emulator :: Unlike some, all I really want is a reliable and fast
+     terminal emulator. Most of the time, I just use whatever is the /default/
+     editor provided by whatever desktop environment I'm using. When I want
+     /advanced/ features, I tend to resort to what the shell provides rather
+     than invest effort learning some emulator specific behaviour. My shell of
+     choice these days is zsh.
+- Editor :: For me it is Emacs. This is primarily because I am an Emacspeak
+            user. I do pretty much everything I can in Emacs, which is why it is
+            so crucial. I will sometimes use ~vi~, but really don't care if it
+            is old ~vi~ or some variant like ~vim~ as I'm not a power user and
+            so the differences are irrelevant.
+- Web Browser :: Everyone needs one of these. I have been a chrome user for
+                 ages, primarily because of ~ChromeVox~. However, recently,
+                 ChromeVox has become somewhat unstable and buggy. Therefore, I
+                 have started to use Firefox again.
+
+** Terminal Emulator 
+
+I'm using ~termite~ because it supports native wayland and because it was in the
+ArchLinux repository. It is a VTE base terminal and so far, seems to work
+fine. I has some nice keyboard support, which I prefer over using the mouse. I
+have run into some issues when using it when connecting to remote systems using
+SSH. I suspect this is a terminfo issue or similar, but have not looked into it
+yet. Expect it is easily fixed once I bother to try. 
+
+Unfortunately, I've not found a repository for termite under Fedora, so on that
+system, I'm just using gnome-terminal. I'm not a big Gnome fan, but the terminal
+seems to work fine. 
+
+** Editor
+
+I compuiled Emacs from source rather than using one of the distribution bundled
+versions. This is partly because there is currently an issue with Emacs 26.2
+(current release) and accesss to ELPA over TLS. The issue is fixed in the
+pre-release of Emacs 26.3, but that isn't bundled in any repos yet. 
+
+As I'm building from source, figured I may as well build from the head of the
+development tree in Git. This may introduce some instability, but generally, it
+is pretty stable. So, Emacs is 27.0.50. 
+
+** Web Browser
+
+Using firefox. Under Fedora, there is a firefox package which is built with
+native wayland supprot, so I'm usi9ng it in that environment. Experience so far
+is positive. Seem to be faster and works well. 
+
+While there is two firefox packages built with Wayland support in Arch, both are
+out of date. Therefore, I'm running plan firefox in that environment. It also
+seems to be working well and I have to say, I'm quite liking firefox at
+present. 
+ 
+* Additional Software
+
+There is lots of additional stuff I'm using which is either not specific to
+wayland or which I will just use X versions via Xwayuland. However, probably the
+most crucial of these is speech-dispatcher and espeak. I also like to use orca
+with firefox. Early indications are that it will work, but it does seem to throw
+a lot of errors. More investigation needed here. 
+
+
+* Configuration Files
+
+The sway configuration is in the ~sway-config.org~ file. This is an emacs
+~org-mode~ file. You can generate the actual configuration by using Emacs
+org-mode to /tangle/ this file. 
+
+The file ~wayland-env.org~ contains some envrionment settings needed to force
+some libraries and applicatons to favour Wayland over X11. I load these settings
+when running sway. Again, this is an Emacs ~org-mode~ file, so /tangle/ it to
+get the actual config file. 
